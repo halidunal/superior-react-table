@@ -1,0 +1,51 @@
+{
+  "name": "superior-react-table",
+  "version": "1.1.1",
+  "description": "A superior table component for react",
+  "main": "lib/index.tsx",
+  "types": "lib/index.d.tsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\" ",
+    "lint": "tslint -p tsconfig.json",
+    "prepare": "npm run build",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/halidunal/superior-react-table.git"
+  },
+  "keywords": [
+    "react",
+    "react-table",
+    "react-component",
+    "react-superior-table",
+    "superior-react-table",
+    "table",
+    "responsive-table",
+    "editable-table",
+    "react-responsive-table",
+    "responsive-table"
+  ],
+  "author": "Halid Ünal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/halidunal/superior-react-table/issues"
+  },
+  "homepage": "https://github.com/halidunal/superior-react-table#readme",
+  "devDependencies": {
+    "@types/react": "^18.2.12",
+    "prettier": "^2.2.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "ts-node": "^10.7.0",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^4.9.5"
+  },
+  "files": [
+    "lib/**/*"
+  ]
+}
