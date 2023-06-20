@@ -13,7 +13,7 @@ npm install superior-react-table
 
 
 ## Example Code 
-``` cpp
+``` js
 import React, { useState } from 'react'
 import Table from 'superior-react-table';
 import { openModal } from '../../store/services/modalService';
@@ -209,7 +209,7 @@ export default function Index(){
 
   const handleEditRowChange = (event: any) => {
     var fieldName = event.target.getAttribute("name");
-    var fieldValue = event.target.value;
+    var fieldValue = event.target.classList[0] !== "h-checkbox" ? event.target.value : event.target.checked;
     var newRowData: ICustomer = {...editRowData}
     newRowData[fieldName as keyof ICustomer] = fieldValue;
     setEditRowData(newRowData);
@@ -234,7 +234,6 @@ export default function Index(){
     })
     if(isNew) {
       customers.shift();
-      console.log(editedData)
       editedData.id = customers.length ? ((customers[customers.length-1].id)++).toString() : "1";
       setCustomers([editedData, ...customers]);
     }else{
@@ -277,11 +276,11 @@ export default function Index(){
 
   const tableProps = {
     theme:'dark',
+    language: "en",
     addable:true,
     editable:'inline',
     removeAll:true,
     searchable:true,
-    language: "en",
     dataPerPage: 10,
     editRowData,
     editSelectedId,

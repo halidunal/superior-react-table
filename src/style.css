@@ -401,11 +401,30 @@ input[type=number] {
     border-top: 5px solid #613280;
 }
 
-.h-checkbox-purple{
+.h-checkbox{
     width: 14px;
     height: 14px;
+}
+
+.h-checkbox-classic{
+    accent-color: #007bff;
+}
+.h-checkbox-dark{
+    accent-color: #324480;
+}
+.h-checkbox-gray{
+    accent-color: #3a3a3a;
+}
+.h-checkbox-blue{
+    accent-color: #007bff;
+}
+.h-checkbox-red{
+    accent-color: #dc3545;
+}
+.h-checkbox-purple{
     accent-color: #613280;
 }
+
 
 .h-classic-primary{
     background-color: #007bff;

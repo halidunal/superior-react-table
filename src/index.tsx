@@ -174,7 +174,6 @@ export default function Table(props: any) {
   };
 
   const handleEditRowChange = (event: React.BaseSyntheticEvent, type: string) => {
-    type === "checkbox" && event.target.setAttribute('value', event.target.checked);
     props.handleEditRowChange(event);
   }
 
@@ -204,12 +203,12 @@ export default function Table(props: any) {
   }
 
   const handleSave = (event: any, id: string) => {
-    var emptyList: any[] = [];
+    var emptyList: boolean[] = [];
     var recordable = true;
     var inputs = document.querySelectorAll("#validate-input");
     for(let i = 0; i < props.columns.length-1; i++){
       let elem = i+1;
-      if(inputs[i]?.classList[0] !== "nullable"){
+      if(inputs[i]?.classList[0] !== "nullable" && inputs[i]?.classList[0] !== "h-checkbox"){
         document.getElementById("warning" + elem)?.setAttribute("style", "display: inline");
         inputs[i]?.getAttribute("value") === "" ? emptyList[i] = false : emptyList[i] = true;
       }
@@ -238,7 +237,7 @@ export default function Table(props: any) {
       var day = value.slice(8,10);
       formatedValue = day + "." + month + "." + year;
     }else if(type === "checkbox"){
-      return CheckBox(value);
+      return CheckBox({checked: value});
     }
     return formatedValue;
   }
@@ -249,14 +248,21 @@ export default function Table(props: any) {
 
   const CheckBox = (checkProps: any) => {
     return(
-      <input type='checkbox' disabled checked={checkProps.value} className="h-checkbox"></input>
+      <input type='checkbox' disabled checked={checkProps.checked} className="h-checkbox"></input>
     )
   }
 
-  const Dropdown = (props: any) => {
+  const Dropdown = (selectProps: any) => {
     return (
-      <select onChange={props.onChange} name={props.name} value={props.value} className={props.className + " dropdown"} style={props.width && {width: props.width}} id={props.id} onBlur={props.onBlur}>
-        {props.data.map((item: any, key: any) => (
+      <select
+        onChange={selectProps.onChange}
+        name={selectProps.name}
+        value={selectProps.value}
+        className={selectProps.className + " dropdown"}
+        style={selectProps.width && {width: selectProps.width}}
+        id={selectProps.id}
+        onBlur={selectProps.onBlur}>
+        {selectProps.data.map((item: any, key: any) => (
           <option key={key} value={item} className="dropdown-item" onTouchMove={e => e.preventDefault()}>{item}</option>
         ))}
       </select>
@@ -330,7 +336,6 @@ export default function Table(props: any) {
   const AngleDoubleRightIcon = (props: any) => <svg width="1em" height="1em" viewBox="0 0 448 512" fill="currentColor" onClick={props.onClick}><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34zm192-34l-136-136c-9.4-9.4-24.6-9.4-33.9 0l-22.6 22.6c-9.4 9.4-9.4 24.6 0 33.9l96.4 96.4-96.4 96.4c-9.4 9.4-9.4 24.6 0 33.9l22.6 22.6c9.4 9.4 24.6 9.4 33.9 0l136-136c9.4-9.2 9.4-24.4 0-33.8z"></path></svg>
   const AngleRightIcon = (props: any) => <svg width="1em" height="1em" viewBox="0 0 256 512" fill="currentColor" onClick={props.onClick}><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"></path></svg>
 
-
   return (
     <>{!props.loading ?
       <div>
@@ -395,7 +400,7 @@ export default function Table(props: any) {
                       else if(props.editSelectedId === items[0] || items[0] === "none") {
                         var fieldName = props.columns[key-1]["field"]
                         return(
-                          <td className={'cell cell-'+theme} key={key}>
+                          <td className={'cell cell-'+theme} key={key} style={{textAlign: props.columns[key-1]["type"] === "checkbox" && props.columns[key-1]["align"]}}>
                             {props.columns[key-1]["type"] === "select" ?
                               <Dropdown name={fieldName}
                                 data={["",...props.columns[key-1]["data"]]}
@@ -410,8 +415,9 @@ export default function Table(props: any) {
                                 ref={key === 1 ? firstInputRef : null}
                                 value={props?.editRowData[fieldName]}
                                 type={props.columns[key-1]["type"]}
-                                className={props.columns[key-1]["nullable"] ? "nullable h-input" : props.columns[key-1]["type"] === "checkbox" ? "h-checkbox-"+{theme} : "h-input"}
+                                className={props.columns[key-1]["nullable"] ? "nullable h-input" : props.columns[key-1]["type"] === "checkbox" ? "h-checkbox h-checkbox-"+theme : "h-input"}
                                 id="validate-input"
+                                checked={props?.editRowData[fieldName]}
                                 onChange={e => handleEditRowChange(e, props.columns[key-1]["type"])}
                                 onKeyUp={(e) => handleKeyUpInput(e)}
                                 onBlur={(e) => blurEdit && onBlurInput(e)}>
@@ -429,7 +435,7 @@ export default function Table(props: any) {
                       let width = props.columns[key-1]["width"] ? props.columns[key-1]["width"] : 150;
                       let align = props.columns[key-1]["align"];
                       return <td className={'cell cell-'+theme} key={key}
-                      title={formatValue(item, props.columns[key-1]["type"])}
+                      title={props.columns[key-1]["type"] !== "checkbox" ? formatValue(item, props.columns[key-1]["type"]) : ""}
                       style={align === "center" ? {textAlign: "center", maxWidth: width} : align === "right" ? {textAlign: "right", maxWidth: width} : {textAlign: "left", maxWidth: width}}
                       >{formatValue(item, props.columns[key-1]["type"])}</td>}
                     })}
@@ -466,6 +472,7 @@ export default function Table(props: any) {
                               value={props.editRowData[fieldName]}
                               className={props.columns[key-1]["nullable"] ? "nullable" : ""}
                               id="validate-input"
+                              checked={props?.editRowData[fieldName]}
                               onChange={(e: any) => handleChangeTableDropdown(e)}>
                             </Dropdown>
                             :
@@ -473,9 +480,11 @@ export default function Table(props: any) {
                               ref={key === 1 ? firstInputRef : null}
                               value={props.editRowData[fieldName]}
                               type={props.columns[key-1]["type"]}
-                              className={props.columns[key-1]["nullable"] ? "nullable h-input" : props.columns[key-1]["type"] === "checkbox" ? "h-checkbox-"+{theme} : "h-input"}
+                              className={props.columns[key-1]["nullable"] ? "nullable h-input" : props.columns[key-1]["type"] === "checkbox" ? "h-checkbox h-checkbox-"+theme : "h-input"}
                               id="validate-input"
-                              onChange={e => handleEditRowChange(e, props.columns[key-1]["type"])}>
+                              checked={props?.editRowData[fieldName]}
+                              onChange={e => handleEditRowChange(e, props.columns[key-1]["type"])}
+                              onKeyUp={(e) => handleKeyUpInput(e)}>
                             </input>
                             }
                             {props.editRowData[fieldName] === "" && !props.columns[key-1]["nullable"] &&
