@@ -322,7 +322,6 @@ export default function Index(){
 
   return (
     <div>
-      <p className='page-title'>Personel Listesi</p>
       <Table {...tableProps}/>
     </div>
   )
