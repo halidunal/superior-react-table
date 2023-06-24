@@ -1,6 +1,6 @@
 {
   "name": "superior-react-table",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "A superior table component for react",
   "main": "lib/index.tsx",
   "types": "lib/index.d.tsx",

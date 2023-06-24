@@ -149,10 +149,10 @@ export default function Table(props: any) {
       return;
     }
     if(sorting?.orderBy === 'asc'){
-      return a[sorting.key+1].toString().localeCompare(b[sorting.key+1]);
+      return a[sorting.key+1]?.toString().localeCompare(b[sorting.key+1]);
     }
     if(sorting?.orderBy === 'desc'){
-      return b[sorting.key+1].toString().localeCompare(a[sorting.key+1]);
+      return b[sorting.key+1]?.toString().localeCompare(a[sorting.key+1]);
     }
   });
 
@@ -347,7 +347,7 @@ export default function Table(props: any) {
             </input>
           )}
           <div style={{display: "flex"}}>
-            {props.addable && (
+            {props.removeAll && (
               <button title={languages[language as keyof langType].removeAll} className={"h-button h-"+ theme +"-primary"} onClick={handleRemoveAll} style={windowWidth > mobileViewWidth ? {marginRight: 4} : {width: "100%", marginRight: 4}}>
                 {windowWidth > mobileViewWidth ? <TrashIcon/> : <>{languages[language as keyof langType].removeAll}</>}
               </button>
@@ -361,7 +361,7 @@ export default function Table(props: any) {
         </div>
         <div className='table-main'>
           {windowWidth > mobileViewWidth ?
-          <div className={'table-container table-container-'+theme}>
+          <div className={'table-container table-container-'+theme}>sroting
             <table className='table-responsive'>
               <thead className='thead'>
                 <tr>

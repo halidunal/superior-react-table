@@ -9,7 +9,7 @@ npm install superior-react-table
 
 ## Live Demo
 
-[https://halidunal.github.io/portfolio/superior-react-table](https://halidunal.github.io/portfolio/superior-react-table)
+[https://halidunal.github.io > Protfolio > Superior React Table](https://halidunal.github.io)
 
 
 ## Example Code 
