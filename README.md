@@ -9,7 +9,7 @@ npm install superior-react-table
 
 ## Live Demo
 
-[https://halidunal.github.io > Protfolio > Superior React Table](https://halidunal.github.io)
+[https://halidunal.github.io > Portfolio > Superior React Table](https://halidunal.github.io)
 
 
 ## Example Code 
@@ -19,11 +19,11 @@ import Table from 'superior-react-table';
 import { openModal } from '../../store/services/modalService';
 
 export default function Index(){
-  const [editSelectedId,setEditSelectedId] = useState("");
+  const [editSelectedId,setEditSelectedId] = useState(0);
   const [customers, setCustomers] = useState<ICustomer[]>(
     [
       {
-        "id": "1",
+        "id": 1,
         "last_name": "Doe",
         "first_name": "John",
         "email_address": "john@john.mail",
@@ -33,10 +33,10 @@ export default function Index(){
         "profession_code": 345,
         "birthday": "1981-06-11",
         "city": "New Jersey",
-        "gross_salary": "6000$-"
+        "gross_salary": "6000$+"
       },
       {
-        "id": "2",
+        "id": 2,
         "last_name": "Gratacos Solsona",
         "first_name": "Antonio",
         "email_address": "antonio@antonio.mail",
@@ -49,20 +49,19 @@ export default function Index(){
         "gross_salary": "-2000$"
       },
       {
-        "id": "3",
+        "id": 3,
         "last_name": "Axen",
         "first_name": "Thomas",
         "email_address": "thomas@thomas.mail",
         "job_title": "Purchasing Representative",
         "is_active": false,
         "mobile_phone": "(123)555-0101",
-        "profession_code": 444,
         "birthday": "1976-06-25",
         "city": "Los Angelas",
         "gross_salary": "4000-6000$"
       },
       {
-        "id": "4",
+        "id": 4,
         "last_name": "Lee",
         "first_name": "Christina",
         "email_address": "christina@christina.mail",
@@ -75,7 +74,7 @@ export default function Index(){
         "gross_salary": "4000-6000$"
       },
       {
-        "id": "5",
+        "id": 5,
         "last_name": "O’Donnell",
         "first_name": "Martin",
         "email_address": "martin@marting.mail",
@@ -88,7 +87,7 @@ export default function Index(){
         "gross_salary": "2000-4000$"
       },
       {
-        "id": "6",
+        "id": 6,
         "last_name": "Pérez-Olaeta",
         "first_name": "Francisco",
         "email_address": "francisco@francisco.mail",
@@ -101,7 +100,7 @@ export default function Index(){
         "gross_salary": "4000-6000$"
       },
       {
-        "id": "7",
+        "id": 7,
         "last_name": "Xie",
         "first_name": "Ming-Yang",
         "email_address": "ming@ming.mail",
@@ -113,7 +112,7 @@ export default function Index(){
         "gross_salary": "4000-6000$"
       },
       {
-        "id": "8",
+        "id": 8,
         "last_name": "Andersen",
         "first_name": "Elizabeth",
         "email_address": "elizabeth@elizabeth.mail",
@@ -126,7 +125,7 @@ export default function Index(){
         "gross_salary": "4000-6000$"
       },
       {
-        "id": "9",
+        "id": 9,
         "last_name": "Mortensen",
         "first_name": "Sven",
         "email_address": "sven@sven.mail",
@@ -139,7 +138,7 @@ export default function Index(){
         "gross_salary": "2000-4000$"
       },
       {
-        "id": "10",
+        "id": 10,
         "last_name": "Wacker",
         "first_name": "Roland",
         "email_address": "roland@roland.mail",
@@ -152,7 +151,7 @@ export default function Index(){
         "gross_salary": "-2000$"
       },
       {
-        "id": "11",
+        "id": 11,
         "last_name": "Krschne",
         "first_name": "Peter",
         "email_address": "peter@peter.mail",
@@ -162,10 +161,10 @@ export default function Index(){
         "profession_code": 444,
         "birthday": "1996-04-09",
         "city": "Miami",
-        "gross_salary": "6000$-"
+        "gross_salary": "6000$+"
       },
       {
-        "id": "12",
+        "id": 12,
         "last_name": "Edwards",
         "first_name": "John",
         "email_address": "john@john.mail",
@@ -175,7 +174,7 @@ export default function Index(){
         "profession_code": 123,
         "birthday": "1995-03-19",
         "city": "Las Vegas",
-        "gross_salary": "6000$-"
+        "gross_salary": "6000$+"
       }
     ]
   );
@@ -234,44 +233,47 @@ export default function Index(){
     })
     if(isNew) {
       customers.shift();
-      editedData.id = customers.length ? ((customers[customers.length-1].id)++).toString() : "1";
+      editedData.id = customers.length ? (customers[customers.length-1].id)+1 : 1;
       setCustomers([editedData, ...customers]);
+			toast.success("Add process successful");
     }else{
       let index = customers.findIndex(item => item.id === editSelectedId);
       customers[index] = editedData;
+			toast.success("Update process successful");
     }
-    setEditSelectedId("");
+    setEditSelectedId(0);
   };
 
   const handleRemove = (id: string) => {
     setCustomers(customers.filter(item => item.id !== id))
+		toast.success("Delete process successful");
   }
 
   const handleRemoveAll = () => {
     setCustomers([]);
+		toast.success("Delete process successful");
   }
 
   const handleAddNew = () => {
     Object.keys(editRowData).map((item: any) => {
       editRowData[item as keyof ICustomer] = "";
     })
-    setEditSelectedId("none");
+    setEditSelectedId(0);
     if(!customers.length) {
-      setCustomers([{id:"none",...editRowData}, ...customers]);
+      setCustomers([{id:0,...editRowData}, ...customers]);
     }else{
-      if(customers[0].id !== "none") setCustomers([{id:"none",...editRowData}, ...customers]);
+      if(customers[0].id != 0) setCustomers([{id:0,...editRowData}, ...customers]);
     }
   }
 
   const handleClose = (isNew: boolean) => {
-    setEditSelectedId("");
+    setEditSelectedId(0);
     if(isNew) {
-      customers.shift();
-    }
+      setCustomers(customers.filter(item => item.id !== 0))    }
   }
 
   const handleOpenModal = (customers: ICustomer) =>{
-    openModal("edit-customer-modal", "Edit Customer Information", customers);
+    openModal("edit-customer-modal", "Edit Customer Informations", customers);
   }
 
   const tableProps = {
@@ -302,7 +304,7 @@ export default function Index(){
       {field: "profession_code", title:"Profession Code", type: "number", sortable: true, nullable: true},
       {field: "birthday", title:"Birthday", type: "date", sortable: true, width: 100},
       {field: "city", title:"City", sortable: true},
-      {field: "gross_salary", title:"Gross Salary", sortable: true, type: "select", data:["-2000$","2000-4000$","4000-6000$","6000$-"]},
+      {field: "gross_salary", title:"Gross Salary", sortable: true, type: "select", data:["-2000$","2000-4000$","4000-6000$","6000$+"], width: 120},
       {title: "", width:75} //command cell 
     ],
     fields:customers.map((item: ICustomer) => ([

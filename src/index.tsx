@@ -202,7 +202,7 @@ export default function Table(props: any) {
     props.handleRemoveAll();
   }
 
-  const handleSave = (event: any, id: string) => {
+  const handleSave = (event: any, id: string | number | undefined) => {
     var emptyList: boolean[] = [];
     var recordable = true;
     var inputs = document.querySelectorAll("#validate-input");
@@ -216,7 +216,7 @@ export default function Table(props: any) {
     emptyList.map((item: boolean) => {
       if(item === false) return recordable = false;
     })
-    if(recordable) id === "none" ? props.handleEditRowSubmit(event, true) : props.handleEditRowSubmit(event, false);
+    if(recordable) id == 0 || id === undefined ? props.handleEditRowSubmit(event, true) : props.handleEditRowSubmit(event, false);
   }
 
   const handleKeyUpInput = (event: any) => {
@@ -297,20 +297,20 @@ export default function Table(props: any) {
     }
     return(
       <>
-        {props.editable && props.editSelectedId === cellProps.items[0] ? (
+        {props.editable && props.editSelectedId === cellProps.items[0] || cellProps.items[0] === undefined ? (
           <div className={windowWidth > mobileViewWidth ? "" : "command-cell"}>
             <button id="save" style={editSaveButtonStyle} className={"h-button h-"+theme+"-primary"} onClick={(e) => {handleSave(e, cellProps.items[0])}} title={languages[language as keyof langType].save}>
               {windowWidth > mobileViewWidth ? <CheckIcon/> : <>{languages[language as keyof langType].save}</>}
             </button>
             <button id="cancel" style={removeCloseButtonStyle} className={"h-button h-"+theme+"-secondary"} title={languages[language as keyof langType].cancel}
-              onClick={() => {cellProps.items[0] === "none" ? props.handleClose(true) : props.handleClose(false)}}>
+              onClick={() => {cellProps.items[0] == 0 || cellProps.items[0] === undefined ? props.handleClose(true) : props.handleClose(false)}}>
               {windowWidth > mobileViewWidth ? <TimesIcon/> : <>{languages[language as keyof langType].cancel}</>}
             </button>
           </div>
           ) : props.editable && (
           <div className={windowWidth > mobileViewWidth ? "" : "command-cell"}>
             <button style={editSaveButtonStyle} className={"h-button h-"+theme+"-primary"} title={languages[language as keyof langType].edit} id={cellProps.index}
-              onClick={(e) => filteredData[0][0] !== "none" && props.editable === 'inline' ? props.handleEdit(e, cellProps.items) : props.editable ==='popup' && handleOpenModal(e.currentTarget.id)}>
+              onClick={(e) => filteredData[0][0] != 0 && props.editable === 'inline' ? props.handleEdit(e, cellProps.items) : props.editable ==='popup' && handleOpenModal(e.currentTarget.id)}>
               {windowWidth > mobileViewWidth ? <PencilIcon/> : <>{languages[language as keyof langType].edit}</>}
             </button>
             <button style={removeCloseButtonStyle} className={"h-button h-"+theme+"-secondary"} onClick={() => props.handleRemove(cellProps.items[0])} title={languages[language as keyof langType].remove}>
@@ -396,8 +396,8 @@ export default function Table(props: any) {
                   return(
                   <tr key={key} className={"row row-"+theme}>
                     {items.map((item: any, key: any) =>{
-                      if(items[0] && key === 0 || props.columns[key-1]["visibility"] === false) return
-                      else if(props.editSelectedId === items[0] || items[0] === "none") {
+                      if(key <= 0 && items[0] || key > 0 && props.columns[key-1]["visibility"] === false) return
+                      else if(key > 0 && props.editSelectedId === items[0] || items[0] == undefined && key > 0) {
                         var fieldName = props.columns[key-1]["field"]
                         return(
                           <td className={'cell cell-'+theme} key={key} style={{textAlign: props.columns[key-1]["type"] === "checkbox" && props.columns[key-1]["align"]}}>
@@ -432,10 +432,11 @@ export default function Table(props: any) {
                         )
                       }
                       else{
+                      if(key === 0) return
                       let width = props.columns[key-1]["width"] ? props.columns[key-1]["width"] : 150;
                       let align = props.columns[key-1]["align"];
                       return <td className={'cell cell-'+theme} key={key}
-                      title={props.columns[key-1]["type"] !== "checkbox" ? formatValue(item, props.columns[key-1]["type"]) : ""}
+                      title={props.columns[key-1]["type"] !== "checkbox" || props.columns[key-1]["type"] !== "boolean" ? formatValue(item, props.columns[key-1]["type"]) : ""}
                       style={align === "center" ? {textAlign: "center", maxWidth: width} : align === "right" ? {textAlign: "right", maxWidth: width} : {textAlign: "left", maxWidth: width}}
                       >{formatValue(item, props.columns[key-1]["type"])}</td>}
                     })}
@@ -461,8 +462,8 @@ export default function Table(props: any) {
                   </div>}
                   {<div className='mobile-cell-container'>
                     {items.map((item: any, key: any) =>{
-                      if(items[0] && key === 0 || props.columns[key-1]["visibility"] === false) return
-                      else if(props.editSelectedId === items[0] || items[0] === "none") {
+                      if(key <= 0 && items[0] || key > 0 && props.columns[key-1]["visibility"] === false) return
+                      else if(key > 0 && props.editSelectedId === items[0] || items[0] == undefined && key > 0) {
                         var fieldName = props.columns[key-1]["field"]
                         return(
                           <div className='mobile-cell' key={key}>
