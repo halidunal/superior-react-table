@@ -497,6 +497,7 @@ export default function Table(props: any) {
                         )
                       }
                       else
+                      if(key === 0) return
                       return <div className={'mobile-cell mobile-cell-'+theme} key={key} title={formatValue(item, props.columns[key-1]["type"])}>&nbsp;{formatValue(item, props.columns[key-1]["type"])}</div>
                     })}
                   </div>}
