@@ -361,7 +361,7 @@ export default function Table(props: any) {
         </div>
         <div className='table-main'>
           {windowWidth > mobileViewWidth ?
-          <div className={'table-container table-container-'+theme}>sroting
+          <div className={'table-container table-container-'+theme}>
             <table className='table-responsive'>
               <thead className='thead'>
                 <tr>

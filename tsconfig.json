@@ -4,7 +4,7 @@
     "jsx": "react-jsx",
     "declaration": true,
     "esModuleInterop": true,
-    "outDir": "lib",
+    "outDir": "dist",
     "target": "es6",
     "module": "es6",
     "moduleResolution": "node"
