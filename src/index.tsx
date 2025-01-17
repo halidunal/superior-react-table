@@ -170,7 +170,7 @@ export default function Table(props: any) {
   },[filteredData])
 
   const handleChangePagingDropdown = (event: React.BaseSyntheticEvent) => {
-    setPagingDropdownValue(event.target.value);
+    setPagingDropdownValue(parseInt(event.target.value));
   };
 
   const handleEditRowChange = (event: React.BaseSyntheticEvent, type: string) => {
@@ -338,7 +338,7 @@ export default function Table(props: any) {
 
   return (
     <>{!props.loading ?
-      <div>
+      <div className='superior-react-table'>
         <div className={windowWidth > mobileViewWidth ? 'table-bar' : 'mobile-table-bar'}>
           {props.searchable && (
             <input style={windowWidth > mobileViewWidth ? {width: 300, marginRight: 4} : {width: "inherit", marginBottom: 4}}
