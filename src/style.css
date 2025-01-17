@@ -1,8 +1,9 @@
-ul {
-    padding: 0;
-    list-style-type: none;
-  }
-  
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
+
+.superior-react-table{
+    font-family: 'Open Sans', sans-serif;
+}
+
 .dropdown{
 	font-size: 14px;
 	line-height: 1.43;
@@ -43,6 +44,7 @@ ul {
 }
 
 .table-main{
+    box-sizing: border-box;
     width: 100%;
     display: block;
     line-height: 2.25rem;
@@ -57,7 +59,8 @@ ul {
     border: 1px solid #c6c8cc;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    height: 490px;
+    height: auto;
+    max-height: 490px;
     justify-content: space-between;
 }
 
@@ -81,7 +84,9 @@ ul {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     height: 100%;
-    justify-content: space-between;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 
 .table-header{
@@ -257,6 +262,7 @@ ul {
 
 .table-paging-right{
     text-align: center;
+    font-size: 14px;
 }
 
 .table-paging-right-dark{
@@ -272,6 +278,7 @@ ul {
 }
 
 .table-paging-left svg{
+    box-sizing: border-box;
     cursor: pointer;
     padding: 4px;
     border-radius: 4px;
@@ -334,14 +341,16 @@ input[type=number] {
 }
 
 .h-input{
-    padding: 4px 8px;
+    width: 100%;
+    width: -moz-available;          /* WebKit-based browsers will ignore this. */
+    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+    width: fill-available;    padding: 4px 8px;
     border: 1px solid rgba(0, 0, 0, 0.08);
     color: #424242;
     background-color: #ffffff;
     font-size: 14px;
     line-height: 1.43;
     border-radius: 4px;
-    width: 100%;
 }
 
 .h-input-dark{
